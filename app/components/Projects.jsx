@@ -62,20 +62,11 @@ export default function ProjectSection() {
 
   return (
     <section ref={sectionRef} className="relative w-screen min-h-screen bg-white overflow-hidden">
-
-      {/* Main Section */}
       {!showProjects && (
         <div className="min-h-screen bg-white px-10 py-20 flex flex-col justify-center text-bold">
-          
-          {/* OUR - fully static */}
-          <h1
-            className="text-[140px] leading-none text-black"
-            style={{ fontFamily: 'eurostile' }}
-          >
+          <h1 className="text-[140px] leading-none text-black" style={{ fontFamily: 'eurostile' }}>
             OUR
           </h1>
-
-          {/* ONGOING - animates on scroll / back */}
           <AnimatePresence mode="wait">
             {isInView && (
               <motion.h1
@@ -92,7 +83,6 @@ export default function ProjectSection() {
             )}
           </AnimatePresence>
 
-          {/* PROJECT translations */}
           <div className="h-[150px] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.h1
@@ -109,7 +99,6 @@ export default function ProjectSection() {
             </AnimatePresence>
           </div>
 
-          {/* Main Arrow to open projects */}
           <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
             <button
               className="w-40 h-40 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
@@ -124,7 +113,6 @@ export default function ProjectSection() {
         </div>
       )}
 
-      {/* Projects Section */}
       {showProjects && (
         <div className="flex flex-col justify-center items-center py-20 h-screen">
           <AnimatePresence mode="wait">
@@ -137,22 +125,18 @@ export default function ProjectSection() {
               transition={{ duration: 0.6 }}
             >
               <div className="absolute inset-0 bg-gray-300 transition duration-500 hover:opacity-0"></div>
-
               <img
                 src={projects[currentProjectIndex].image}
                 alt={projects[currentProjectIndex].title}
                 className="object-cover w-full h-full"
               />
-
               <div className="absolute bottom-0 bg-black bg-opacity-50 w-full p-4 text-white text-lg font-semibold">
                 {projects[currentProjectIndex].title}
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Arrows */}
           <div className="flex justify-center items-center gap-10 mt-10">
-            {/* Back Arrow */}
             <button
               className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
               onClick={handlePrevious}
@@ -163,7 +147,6 @@ export default function ProjectSection() {
               </svg>
             </button>
 
-            {/* Next Arrow */}
             {currentProjectIndex < projects.length - 1 && (
               <button
                 className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
@@ -178,7 +161,6 @@ export default function ProjectSection() {
           </div>
         </div>
       )}
-
     </section>
   );
 }
