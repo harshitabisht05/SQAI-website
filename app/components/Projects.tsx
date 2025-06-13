@@ -1,161 +1,184 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-
-const projects = [
-  {
-    id: 1,
-    title: 'Poster Design',
-    category: 'Graphic',
-    image: '/images/project1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Editorial Site',
-    category: 'Web',
-    image: '/images/project2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Type Experiments',
-    category: 'Typography',
-    image: '/images/project3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Identity System',
-    category: 'Brand',
-    image: '/images/project4.jpg',
-  },
-];
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 export default function ProjectSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const translations = [
+    "PROJECT", "PROJEKT", "PROYECTO", "PROJET", "ПРОЕКТ", "プロジェクト",
+    "项目", "مشروع", "PROGETTO", "PROJETO", "परियोजना", "โครงการ"
+  ];
 
-  // Scroll handler for vertical to horizontal
+  const projects = [
+    {
+      title: "QuickRide",
+      description: "Real-time rental vehicle booking system with secure payments.",
+      image: "https://via.placeholder.com/400x300?text=QuickRide"
+    },
+    {
+      title: "Voice Assistant",
+      description: "Web-based voice agent using Web Speech API for dynamic voice interaction.",
+      image: "https://via.placeholder.com/400x300?text=Voice+Assistant"
+    },
+    {
+      title: "Website Monitoring",
+      description: "Full-stack monitoring system with real-time uptime tracking.",
+      image: "https://via.placeholder.com/400x300?text=Monitoring"
+    }
+  ];
+
+  const [index, setIndex] = useState(0);
+  const [showProjects, setShowProjects] = useState(false);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [animationKey, setAnimationKey] = useState(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { amount: 0.4 });
+
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
-
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % translations.length);
+    }, 2000);
+    return () => clearInterval(interval);
   }, []);
 
-  // Scroll tracking
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+    if (isInView) {
+      setAnimationKey(prev => prev + 1);
+    }
+  }, [isInView]);
 
-    const handleScroll = () => {
-      const newIndex = Math.round(el.scrollLeft / window.innerWidth);
-      setActiveIndex(newIndex);
-
-      // Pause auto-scroll and restart after inactivity
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-      timeoutRef.current = setTimeout(() => {
-        startAutoScroll();
-      }, 5000);
-    };
-
-    el.addEventListener('scroll', handleScroll);
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const startAutoScroll = () => {
-    intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => {
-        const nextIndex = (prev + 1) % projects.length;
-        scrollRef.current?.scrollTo({
-          left: window.innerWidth * nextIndex,
-          behavior: 'smooth',
-        });
-        return nextIndex;
-      });
-    }, 5000);
+  const handlePrevious = () => {
+    if (currentProjectIndex === 0) {
+      setShowProjects(false);
+      setAnimationKey(prev => prev + 1);
+    } else {
+      setCurrentProjectIndex(prev => prev - 1);
+    }
   };
 
-  useEffect(() => {
-    startAutoScroll();
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
+  const handleNext = () => {
+    setCurrentProjectIndex(prev => prev + 1);
+  };
 
   return (
-    <section className="w-screen h-screen overflow-hidden relative">
-      <div
-        ref={scrollRef}
-        className="flex w-full h-full overflow-x-auto scroll-smooth"
-        style={{ scrollSnapType: 'x mandatory' }}
-      >
-        {projects.map((project, index) => (
-          <div
-            key={project.id}
-            className="flex-shrink-0 w-screen h-screen px-6 md:px-20 flex flex-col justify-center items-center"
-            style={{ scrollSnapAlign: 'start' }}
+    <section ref={sectionRef} className="relative w-screen min-h-screen bg-white overflow-hidden">
+
+      {/* Main Section */}
+      {!showProjects && (
+        <div className="min-h-screen bg-white px-10 py-20 flex flex-col justify-center text-bold">
+          
+          {/* OUR - fully static */}
+          <h1
+            className="text-[140px] leading-none text-black"
+            style={{ fontFamily: 'eurostile' }}
           >
-            {index === 0 && (
-              <motion.h2
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-5xl md:text-6xl font-bold mb-6 text-left w-full"
+            OUR
+          </h1>
+
+          {/* ONGOING - animates on scroll / back */}
+          <AnimatePresence mode="wait">
+            {isInView && (
+              <motion.h1
+                key={animationKey}
+                className="text-[140px] leading-none italic text-[#3C4142]"
+                style={{ fontFamily: 'condensed' }}
+                initial={{ x: -200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -200, opacity: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                PROJECTS
-              </motion.h2>
+                ONGOING
+              </motion.h1>
             )}
+          </AnimatePresence>
 
-            <motion.div
-              initial={{ opacity: 0.6, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              className="w-full max-w-4xl overflow-hidden rounded-xl"
-            >
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={1200}
-                height={800}
-                className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 text-center"
-            >
-              <h3 className="text-2xl font-semibold">{project.title}</h3>
-              <p className="text-sm text-gray-500">{project.category}</p>
-            </motion.div>
+          {/* PROJECT translations */}
+          <div className="h-[150px] overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={translations[index]}
+                className="text-[140px] leading-none text-black"
+                style={{ fontFamily: 'eurostile' }}
+                initial={{ y: 150 }}
+                animate={{ y: 0 }}
+                exit={{ y: -150 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+              >
+                {translations[index]}
+              </motion.h1>
+            </AnimatePresence>
           </div>
-        ))}
-      </div>
 
-      {/* Navigation Dots */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {projects.map((_, i) => (
-          <div
-            key={i}
-            className={`h-2 w-2 rounded-full transition-all duration-300 ${
-              activeIndex === i ? 'bg-black dark:bg-white' : 'bg-gray-400'
-            }`}
-          />
-        ))}
-      </div>
+          {/* Main Arrow to open projects */}
+          <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+            <button
+              className="w-40 h-40 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
+              onClick={() => setShowProjects(true)}
+            >
+              <svg className="w-40 h-40" viewBox="0 0 100 100" fill="none" stroke="black" strokeWidth="2">
+                <path d="M 20 50 H 80 M 60 30 L 80 50 L 60 70" />
+                <path d="M 80 50 Q 95 40 100 50 Q 95 60 80 50" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Projects Section */}
+      {showProjects && (
+        <div className="flex flex-col justify-center items-center py-20 h-screen">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentProjectIndex}
+              className="relative w-[400px] h-[300px] rounded-xl shadow-lg overflow-hidden cursor-pointer"
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="absolute inset-0 bg-gray-300 transition duration-500 hover:opacity-0"></div>
+
+              <img
+                src={projects[currentProjectIndex].image}
+                alt={projects[currentProjectIndex].title}
+                className="object-cover w-full h-full"
+              />
+
+              <div className="absolute bottom-0 bg-black bg-opacity-50 w-full p-4 text-white text-lg font-semibold">
+                {projects[currentProjectIndex].title}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Arrows */}
+          <div className="flex justify-center items-center gap-10 mt-10">
+            {/* Back Arrow */}
+            <button
+              className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
+              onClick={handlePrevious}
+            >
+              <svg className="w-20 h-20 rotate-180" viewBox="0 0 100 100" fill="none" stroke="black" strokeWidth="2">
+                <path d="M 20 50 H 80 M 60 30 L 80 50 L 60 70" />
+                <path d="M 80 50 Q 95 40 100 50 Q 95 60 80 50" />
+              </svg>
+            </button>
+
+            {/* Next Arrow */}
+            {currentProjectIndex < projects.length - 1 && (
+              <button
+                className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
+                onClick={handleNext}
+              >
+                <svg className="w-20 h-20" viewBox="0 0 100 100" fill="none" stroke="black" strokeWidth="2">
+                  <path d="M 20 50 H 80 M 60 30 L 80 50 L 60 70" />
+                  <path d="M 80 50 Q 95 40 100 50 Q 95 60 80 50" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }
