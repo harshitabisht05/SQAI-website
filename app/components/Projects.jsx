@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { TypeAnimation } from 'react-type-animation';
 
 export default function ProjectSection() {
   const translations = [
@@ -31,8 +32,13 @@ export default function ProjectSection() {
   const [showProjects, setShowProjects] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [animationKey, setAnimationKey] = useState(0);
+  const [typingKey, setTypingKey] = useState(0);
+
   const sectionRef = useRef(null);
+  const textRef = useRef(null);
+
   const isInView = useInView(sectionRef, { amount: 0.4 });
+  const isTextInView = useInView(textRef, { amount: 0.5 });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,28 +49,35 @@ export default function ProjectSection() {
 
   useEffect(() => {
     if (isInView) {
-      setAnimationKey(prev => prev + 1);
+      setAnimationKey((prev) => prev + 1);
     }
   }, [isInView]);
+
+  useEffect(() => {
+    if (isTextInView) {
+      setTypingKey((prev) => prev + 1);
+    }
+  }, [isTextInView]);
 
   const handlePrevious = () => {
     if (currentProjectIndex === 0) {
       setShowProjects(false);
-      setAnimationKey(prev => prev + 1);
+      setAnimationKey((prev) => prev + 1);
+      setTypingKey((prev) => prev + 1);
     } else {
-      setCurrentProjectIndex(prev => prev - 1);
+      setCurrentProjectIndex((prev) => prev - 1);
     }
   };
 
   const handleNext = () => {
-    setCurrentProjectIndex(prev => prev + 1);
+    setCurrentProjectIndex((prev) => prev + 1);
   };
 
   return (
     <section ref={sectionRef} className="relative w-screen min-h-screen bg-white overflow-hidden">
       {!showProjects && (
         <div className="min-h-screen bg-white px-10 py-20 flex flex-col justify-center text-bold">
-          <h1 className="text-[140px] leading-none text-black" style={{ fontFamily: 'eurostile' }}>
+          <h1 className="text-[140px] leading-none text-black" style={{ fontFamily: 'Eurostile'}}>
             OUR
           </h1>
           <AnimatePresence mode="wait">
@@ -72,7 +85,7 @@ export default function ProjectSection() {
               <motion.h1
                 key={animationKey}
                 className="text-[140px] leading-none italic text-[#3C4142]"
-                style={{ fontFamily: 'condensed' }}
+                style={{ fontFamily: 'Eurostile'}}
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -200, opacity: 0 }}
@@ -88,7 +101,7 @@ export default function ProjectSection() {
               <motion.h1
                 key={translations[index]}
                 className="text-[140px] leading-none text-black"
-                style={{ fontFamily: 'eurostile' }}
+                style={{ fontFamily: 'Eurostile'}}
                 initial={{ y: 150 }}
                 animate={{ y: 0 }}
                 exit={{ y: -150 }}
@@ -99,15 +112,40 @@ export default function ProjectSection() {
             </AnimatePresence>
           </div>
 
+          <div ref={textRef} className="absolute top-1/4 right-10 max-w-sm text-right text-[#3C4142] text-lg font-semibold">
+            <TypeAnimation
+              key={typingKey}
+              sequence={[
+                "We are currently working on three key AI projects that solve real problems for Indian users.",
+                1000
+              ]}
+              speed={50}
+              cursor={true}
+            />
+          </div>
+
           <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
             <button
-              className="w-40 h-40 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
+              className="w-60 h-20 flex items-center justify-center rounded-full bg-transparent overflow-hidden"
               onClick={() => setShowProjects(true)}
             >
-              <svg className="w-40 h-40" viewBox="0 0 100 100" fill="none" stroke="black" strokeWidth="2">
-                <path d="M 20 50 H 80 M 60 30 L 80 50 L 60 70" />
-                <path d="M 80 50 Q 95 40 100 50 Q 95 60 80 50" />
-              </svg>
+              <AnimatePresence mode="wait">
+                <motion.svg
+                  key={currentProjectIndex}
+                  className="w-40 h-40"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                  initial={{ x: -200, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -200, opacity: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                  <path d="M 20 50 H 80 M 60 30 L 80 50 L 60 70" />
+                  <path d="M 80 50 Q 95 40 100 50 Q 95 60 80 50" />
+                </motion.svg>
+              </AnimatePresence>
             </button>
           </div>
         </div>
@@ -161,6 +199,13 @@ export default function ProjectSection() {
           </div>
         </div>
       )}
+      <div className="absolute bottom-5 right-10">
+  <img
+    src="/images/logo.png"
+    alt="Sentienta Quality AI"
+    className="w-60 h-auto rounded-lg hover:scale-110 transition-transform duration-300"
+  />
+</div>
     </section>
   );
 }
