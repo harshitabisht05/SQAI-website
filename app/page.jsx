@@ -1,4 +1,5 @@
 import Hero from "./components/Hero";
+import Mission from "./components/Mission";
 import Projects from "./components/Projects";
 import ContactUS from "./components/ContactUS";
 import Footer from "./components/Footer";
@@ -11,6 +12,7 @@ export default function Home() {
     <>
     
       <Hero />
+      <Mission/>
       <Projects />
       <ContactUS />
        <Footer />
