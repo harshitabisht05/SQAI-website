@@ -35,7 +35,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm scroll-smooth">
+    <header className="fixed top-0 z-50 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm scroll-smooth"  style={{ fontFamily: 'Eurostile' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo and Brand */}
         <div className="flex items-center space-x-2">
