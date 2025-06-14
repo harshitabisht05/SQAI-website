@@ -5,41 +5,47 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
 export default function ProjectSection() {
+  // Translations for the animated project word
   const translations = [
     "PROJECT", "PROJEKT", "PROYECTO", "PROJET", "ПРОЕКТ", "プロジェクト",
     "项目", "مشروع", "PROGETTO", "PROJETO", "परियोजना", "โครงการ"
   ];
 
+  // List of projects to display
   const projects = [
     {
-      title: "QuickRide",
-      description: "Real-time rental vehicle booking system with secure payments.",
-      image: "https://via.placeholder.com/400x300?text=QuickRide"
+      title: "AI Invoice & Document Parser for MSMEs",
+      description: "Helps small businesses extract key data from invoices (like vendor, GST, amount) using OCR + AI and export it to Excel or Google Sheets. Supports offline use.",
+      image: "/images/project-sample.jpg"
     },
     {
-      title: "Voice Assistant",
-      description: "Web-based voice agent using Web Speech API for dynamic voice interaction.",
-      image: "https://via.placeholder.com/400x300?text=Voice+Assistant"
+      title: "Meeting Summarizer + Action Tracker",
+      description: "Automatically records, transcribes, and summarizes meetings. Extracts action items and sends reminders via WhatsApp, Notion, Slack, etc. Works in Hindi, Tamil, and English.",
+      image: "/images/project-sample.jpg"
     },
     {
-      title: "Website Monitoring",
-      description: "Full-stack monitoring system with real-time uptime tracking.",
-      image: "https://via.placeholder.com/400x300?text=Monitoring"
+      title: "Contract/Legal Document Explainer",
+      description: "Lets SMEs upload legal contracts to get simple summaries, identify risky clauses, and receive explanations in plain language (Hindi/English/Regional).",
+      image: "/images/project-sample.jpg"
     }
   ];
 
-  const [index, setIndex] = useState(0);
-  const [showProjects, setShowProjects] = useState(false);
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [animationKey, setAnimationKey] = useState(0);
-  const [typingKey, setTypingKey] = useState(0);
+  // State variables to control animations & project navigation
+  const [index, setIndex] = useState(0); // current translation index for scrolling text
+  const [showProjects, setShowProjects] = useState(false); // toggle between intro and projects screen
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0); // current project index
+  const [animationKey, setAnimationKey] = useState(0); // used for re-triggering animation
+  const [typingKey, setTypingKey] = useState(0); // used for re-triggering typing animation
 
+  // Refs for detecting scroll visibility
   const sectionRef = useRef(null);
   const textRef = useRef(null);
 
+  // Detect if the main section and text area are in viewport
   const isInView = useInView(sectionRef, { amount: 0.4 });
   const isTextInView = useInView(textRef, { amount: 0.5 });
 
+  // Cycle through translations every 2 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % translations.length);
@@ -47,18 +53,21 @@ export default function ProjectSection() {
     return () => clearInterval(interval);
   }, []);
 
+  // Trigger re-animation when section enters view
   useEffect(() => {
     if (isInView) {
       setAnimationKey((prev) => prev + 1);
     }
   }, [isInView]);
 
+  // Trigger re-typing when text area enters view
   useEffect(() => {
     if (isTextInView) {
       setTypingKey((prev) => prev + 1);
     }
   }, [isTextInView]);
 
+  // Handle previous button click: either go back to intro screen or previous project
   const handlePrevious = () => {
     if (currentProjectIndex === 0) {
       setShowProjects(false);
@@ -69,17 +78,24 @@ export default function ProjectSection() {
     }
   };
 
+  // Handle next button click to go to next project
   const handleNext = () => {
     setCurrentProjectIndex((prev) => prev + 1);
   };
 
   return (
     <section ref={sectionRef} className="relative w-screen min-h-screen bg-white overflow-hidden">
+      
+      {/* ---------------- Initial intro screen ---------------- */}
       {!showProjects && (
         <div className="min-h-screen bg-white px-10 py-20 flex flex-col justify-center text-bold">
+          
+          {/* Static "OUR" title */}
           <h1 className="text-[140px] leading-none text-black" style={{ fontFamily: 'Eurostile'}}>
             OUR
           </h1>
+
+          {/* Animated "ONGOING" title with framer-motion */}
           <AnimatePresence mode="wait">
             {isInView && (
               <motion.h1
@@ -96,10 +112,11 @@ export default function ProjectSection() {
             )}
           </AnimatePresence>
 
+          {/* Scrolling translations */}
           <div className="h-[150px] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.h1
-                key={translations[index]}
+                key={translations[index]} // animation triggers every 2 seconds
                 className="text-[140px] leading-none text-black"
                 style={{ fontFamily: 'Eurostile'}}
                 initial={{ y: 150 }}
@@ -112,6 +129,7 @@ export default function ProjectSection() {
             </AnimatePresence>
           </div>
 
+          {/* Right side typing text */}
           <div ref={textRef} className="absolute top-1/4 right-10 max-w-sm text-right text-[#3C4142] text-lg font-semibold">
             <TypeAnimation
               key={typingKey}
@@ -124,9 +142,10 @@ export default function ProjectSection() {
             />
           </div>
 
-          <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+          {/* Right arrow button to enter projects */}
+          <div className="absolute bottom-20 right-10">
             <button
-              className="w-60 h-20 flex items-center justify-center rounded-full bg-transparent overflow-hidden"
+              className="w-60 h-20 flex items-center justify-center rounded-full bg-transparent overflow-hidden transition-transform duration-300 hover:scale-125"
               onClick={() => setShowProjects(true)}
             >
               <AnimatePresence mode="wait">
@@ -148,33 +167,51 @@ export default function ProjectSection() {
               </AnimatePresence>
             </button>
           </div>
+
         </div>
       )}
 
+      {/* ---------------- Projects screen ---------------- */}
       {showProjects && (
         <div className="flex flex-col justify-center items-center py-20 h-screen">
+          {/* User guide hint */}
+<motion.div 
+  className="absolute top-10 text-center text-gray-600 text-lg font-medium"
+  initial={{ opacity: 0, y: -10 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1 }}
+>
+  Hover on project image to view details
+</motion.div>
+
+          {/* Animated project card */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProjectIndex}
-              className="relative w-[400px] h-[300px] rounded-xl shadow-lg overflow-hidden cursor-pointer"
+              className="relative w-[1000px] h-[600px] rounded-xl shadow-lg overflow-hidden cursor-pointer group"
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="absolute inset-0 bg-gray-300 transition duration-500 hover:opacity-0"></div>
+              {/* Project image with zoom effect on hover */}
               <img
                 src={projects[currentProjectIndex].image}
                 alt={projects[currentProjectIndex].title}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute bottom-0 bg-black bg-opacity-50 w-full p-4 text-white text-lg font-semibold">
-                {projects[currentProjectIndex].title}
+              
+              {/* Hover overlay with project details */}
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <h2 className="text-white text-2xl font-bold mb-2">{projects[currentProjectIndex].title}</h2>
+                <p className="text-white text-sm text-center px-4">{projects[currentProjectIndex].description}</p>
               </div>
             </motion.div>
           </AnimatePresence>
 
+          {/* Navigation arrows */}
           <div className="flex justify-center items-center gap-10 mt-10">
+            {/* Previous Button */}
             <button
               className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
               onClick={handlePrevious}
@@ -185,6 +222,7 @@ export default function ProjectSection() {
               </svg>
             </button>
 
+            {/* Next Button */}
             {currentProjectIndex < projects.length - 1 && (
               <button
                 className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
@@ -199,13 +237,7 @@ export default function ProjectSection() {
           </div>
         </div>
       )}
-      <div className="absolute bottom-5 right-10">
-  <img
-    src="/images/logo.png"
-    alt="Sentienta Quality AI"
-    className="w-60 h-auto rounded-lg hover:scale-110 transition-transform duration-300"
-  />
-</div>
+      
     </section>
   );
 }
