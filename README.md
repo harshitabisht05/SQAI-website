@@ -14,6 +14,7 @@ cd SQAI-website
 ```bash
 npm install
 npm install framer-motion
+npm install lucide-react
 ```
 4. Start the development server:
 ```bash
