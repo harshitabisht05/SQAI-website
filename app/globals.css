@@ -39,7 +39,7 @@ html, body {
   overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Eurostile', Arial, Helvetica, sans-serif;
+  font-family: 'Eurostile';
 }
 
 /* Hide scrollbar */
