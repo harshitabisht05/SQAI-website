@@ -7,24 +7,10 @@ import Link from 'next/link';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      document.documentElement.classList.add('dark');
-      setIsDarkMode(true);
-    }
-  }, []);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark', !isDarkMode);
-  };
 
   const navItems = [
     { name: 'Home', href: '#home' },
@@ -67,17 +53,8 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Dark mode toggle + menu icon */}
+        {/* menu icon */}
         <div className="flex items-center space-x-4">
-          {isMounted && (
-            <button
-              onClick={toggleDarkMode}
-              aria-label="Toggle Dark Mode"
-              className="text-gray-700 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-          )}
 
           {/* Mobile menu icon */}
           <button

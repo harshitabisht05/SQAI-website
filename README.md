@@ -1,66 +1,93 @@
-# 🧠 Sentienta Quality AI
 
-## How to run this file
+# SQAI Website
 
-1. Clone this repo:
+A modern, responsive, and animated website for **SQAI** — built using cutting-edge web technologies like **Next.js**, **React**, **Tailwind CSS**, and **Framer Motion**. The website features elegant animations, dark/light mode support, mobile responsiveness, and a smooth user experience.
+
+
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework:** [Next.js](https://nextjs.org/)
+- **JavaScript Library:** [React.js](https://react.dev/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Image Optimization:** [Next/Image](https://nextjs.org/docs/api-reference/next/image)
+
+---
+
+## ✨ Features
+
+- 🔥 **Fully Responsive Design**
+- 🌗 **Dark / Light Mode**
+- 📱 **Mobile Friendly Navigation Menu**
+- 🎞 **Smooth Page & Section Animations using Framer Motion**
+- 🌟 **Minimal, Clean & Modern UI**
+- 🚀 **Optimized for Performance**
+- 🗾️ **Optimized Images via Next.js Image component**
+- 🧹 **Component-based architecture for scalability**
+
+---
+
+## 📂 Project Structure
+
+```
+SQAI-website/
+│
+├── app/               # Next.js app directory
+│   ├── layout.jsx     # Main layout file (includes header, footer, global styles)
+│   ├── page.jsx       # Main homepage
+│   └── components/    # Reusable UI components (Header, Footer, Sections, etc.)
+│
+├── public/            # Static assets (images, icons, etc.)
+│
+├── styles/            # Global styles (if any custom CSS used)
+│
+├── package.json       # Project dependencies & scripts
+├── tailwind.config.js # Tailwind CSS configuration
+├── next.config.js     # Next.js configuration
+└── README.md          # Project documentation
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
+
 ```bash
 git clone https://github.com/harshitabisht05/SQAI-website.git
-```
-2. Navigate to the project directory:
-```bash
 cd SQAI-website
 ```
-3. Install the required dependencies:
+
+### 2️⃣ Install Dependencies
+
+Make sure you have **Node.js** and **npm** installed.
+
 ```bash
 npm install
 npm install framer-motion
 npm install lucide-react
 ```
-4. Start the development server:
+
+### 3️⃣ Run the Development Server
+
 ```bash
 npm run dev
 ```
-5. Open your browser and go to `http://localhost:3000` to view the application.
+
+Visit: [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
 
 
-## Info for developers:
-
-- The project is built using Next.js, a React framework.
-- The main entry point is `app/page.tsx`.
-- You can edit the components in the `app/components` directory according to the task assigned.
-- For Navigation bar use `app/components/Header.tsx`.
-- For Hero section use `app/components/Hero.tsx`.
-- For Project section use `app/components/Projects.tsx`.
-- For Footer section use `app/components/Footer.tsx`.
+---
 
 
+## 📸 Screenshots
 
-### Project Structure:
-- `app/`: Contains the main application code.
-- `components/`: Contains reusable components.
-- `public/`: Contains static assets like images.
-- `package.json`: Contains project dependencies and scripts.
-- `tsconfig.json`: TypeScript configuration file.
-- `next.config.js`: Next.js configuration file.
-- `README.md`: This file, providing an overview of the project.
+<!-- Add actual screenshots -->
+| Light Mode | Dark Mode |
+| ---------- | --------- |
+| ![Light](./public/images/light-mode.png) | ![Dark](./public/images/dark-mode.png) |
 
-```
-SQAI-website/
-├── app/
-│   ├── components/
-│   │   ├── Footer.tsx
-│   │   ├── Header.tsx
-│   │   ├── Hero.tsx
-│   │   └── Projects.tsx
-│   └── globals.css
-│   └── layout.tsx
-│   └── page.tsx
-│   └── favicon.ico
-├── public/
-│   └── ...static assets (images, etc.)
-├── package.json
-├── tsconfig.json
-├── next.config.js
-└── README.md
-```
+---
