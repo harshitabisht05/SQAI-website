@@ -42,8 +42,9 @@ export default function Hero() {
 
   return (
     <section
-      id="hero"
-      className="relative min-h-screen text-gray-900 dark:text-white flex items-center justify-center px-6 overflow-hidden"  style={{ fontFamily: 'Eurostile' }}
+      id="home"
+      className="relative min-h-screen text-gray-900 dark:text-white flex items-center justify-center px-6 overflow-hidden"
+      style={{ fontFamily: 'Eurostile' }}
     >
       {/* Video Background */}
       <video
@@ -52,7 +53,6 @@ export default function Hero() {
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-40"
-
       >
         <source src="/images/video-background.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -69,7 +69,7 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-6xl font-bold mb-6">{slides[currentSlide].title}</h1>
-            <p className="text-xl mb-8 text-white-500" >{slides[currentSlide].description}</p>
+            <p className="text-xl mb-8 text-white-500">{slides[currentSlide].description}</p>
           </motion.div>
         </AnimatePresence>
       </div>

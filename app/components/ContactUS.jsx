@@ -7,7 +7,10 @@ import { PhoneIcon, UserIcon, LinkIcon } from '@heroicons/react/24/outline';
 
 export default function ContactSection() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-[#91A4B0] dark:bg-[#3C4142] px-6 py-16 transition-colors duration-300">
+    <section
+      id="contact"
+      className="min-h-screen flex flex-col items-center justify-center bg-[#91A4B0] dark:bg-[#3C4142] px-6 py-16 transition-colors duration-300"
+    >
       <motion.div 
         className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-10"
         initial={{ opacity: 0, y: 50 }}
@@ -45,7 +48,7 @@ export default function ContactSection() {
               <div>
                 <p className="font-semibold text-black dark:text-white" style={{ fontFamily: 'Eurostile' }}>Nizaul Rahman</p>
                 <a href="tel:+919193700777" className="hover:underline" style={{ fontFamily: 'Eurostile' }}>+91 91937 00777</a>              
-                </div>
+              </div>
             </motion.div>
 
             <motion.div className="flex items-center" 
@@ -69,17 +72,16 @@ export default function ContactSection() {
             >
               <LinkIcon className="h-6.5 w-6.5 text-blue-1000 mr-3" />
               <div>
-  <p className="font-semibold text-black dark:text-white" style={{ fontFamily: 'Eurostile' }}>Linkedin</p>
-  <Link
-    href="https://www.linkedin.com/company/quality-ai-io/"
-    target="_blank"
-    className="text-blue-600 dark:text-blue-400 underline"
-    style={{ fontFamily: 'Eurostile' }}
-  >
-    Sentienta QualityAI 
-  </Link>
-</div>
-
+                <p className="font-semibold text-black dark:text-white" style={{ fontFamily: 'Eurostile' }}>Linkedin</p>
+                <Link
+                  href="https://www.linkedin.com/company/quality-ai-io/"
+                  target="_blank"
+                  className="text-blue-600 dark:text-blue-400 underline"
+                  style={{ fontFamily: 'Eurostile' }}
+                >
+                  Sentienta QualityAI 
+                </Link>
+              </div>
             </motion.div>
           </div>
         </motion.div>

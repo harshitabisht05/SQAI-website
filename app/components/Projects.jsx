@@ -4,15 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
-
 export default function ProjectSection() {
-  // All translations for rotating text effect
   const translations = [
     "PROJECT", "PROJEKT", "PROYECTO", "PROJET", "ПРОЕКТ", "プロジェクト",
     "项目", "مشروع", "PROGETTO", "PROJETO", "परियोजना", "โครงการ"
   ];
 
-  // Projects data array
   const projects = [
     {
       title: "AI Invoice & Document Parser for MSMEs",
@@ -34,22 +31,18 @@ export default function ProjectSection() {
     },
   ];
 
-  // All states
-  const [index, setIndex] = useState(0); // For rotating translations
-  const [showProjects, setShowProjects] = useState(false); // For switching between intro and project view
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0); // For tracking which project is shown
-  const [animationKey, setAnimationKey] = useState(0); // For controlling framer-motion animation re-rendering
-  const [typingKey, setTypingKey] = useState(0); // For controlling typing animation refresh
+  const [index, setIndex] = useState(0);
+  const [showProjects, setShowProjects] = useState(false);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [animationKey, setAnimationKey] = useState(0);
+  const [typingKey, setTypingKey] = useState(0);
 
-  // Refs for scroll detection
   const sectionRef = useRef(null);
   const textRef = useRef(null);
 
-  // Observe if sections are in view
   const isInView = useInView(sectionRef, { amount: 0.4 });
   const isTextInView = useInView(textRef, { amount: 0.5 });
 
-  // Change translation text every 2 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % translations.length);
@@ -57,24 +50,21 @@ export default function ProjectSection() {
     return () => clearInterval(interval);
   }, []);
 
-  // Trigger animation when section comes into view
   useEffect(() => {
     if (isInView) {
       setAnimationKey((prev) => prev + 1);
     }
   }, [isInView]);
 
-  // Trigger re-typing when text comes into view
   useEffect(() => {
     if (isTextInView) {
       setTypingKey((prev) => prev + 1);
     }
   }, [isTextInView]);
 
-  // Previous button handler
   const handlePrevious = () => {
     if (currentProjectIndex === 0) {
-      setShowProjects(false); // Go back to intro screen
+      setShowProjects(false);
       setAnimationKey((prev) => prev + 1);
       setTypingKey((prev) => prev + 1);
     } else {
@@ -82,20 +72,18 @@ export default function ProjectSection() {
     }
   };
 
-  // Next button handler
   const handleNext = () => {
     setCurrentProjectIndex((prev) => prev + 1);
   };
 
   return (
     <section
+      id="projects"
       ref={sectionRef}
       className="relative w-screen min-h-screen bg-white dark:bg-black overflow-hidden"
     >
-      {/* ---------- Intro screen ---------- */}
       {!showProjects && (
         <div className="min-h-screen px-10 py-20 flex flex-col justify-center">
-          {/* OUR Heading */}
           <h1
             className="text-[140px] leading-none text-black dark:text-white"
             style={{ fontFamily: 'Eurostile' }}
@@ -103,7 +91,6 @@ export default function ProjectSection() {
             OUR
           </h1>
 
-          {/* ONGOING Heading with animation */}
           <AnimatePresence mode="wait">
             {isInView && (
               <motion.h1
@@ -120,7 +107,6 @@ export default function ProjectSection() {
             )}
           </AnimatePresence>
 
-          {/* Scrolling translation effect */}
           <div className="h-[150px] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.h1
@@ -137,7 +123,6 @@ export default function ProjectSection() {
             </AnimatePresence>
           </div>
 
-          {/* Typing description on right side */}
           <div
             ref={textRef}
             className="absolute top-1/4 right-10 max-w-sm text-right text-[#3C4142] dark:text-[#bfcde0] text-lg font-semibold"
@@ -154,7 +139,6 @@ export default function ProjectSection() {
             />
           </div>
 
-          {/* Right arrow button to move to projects screen */}
           <div className="absolute bottom-20 right-10">
             <button
               className="w-60 h-20 flex items-center justify-center rounded-full bg-transparent overflow-hidden transition-transform duration-300 hover:scale-125"
@@ -182,10 +166,8 @@ export default function ProjectSection() {
         </div>
       )}
 
-      {/* ---------- Project cards screen ---------- */}
       {showProjects && (
         <div className="flex flex-col justify-center items-center py-20 h-screen">
-          {/* Hint text */}
           <motion.div
             className="absolute top-10 text-center text-gray-600 dark:text-gray-300 text-lg font-medium"
             initial={{ opacity: 0, y: -10 }}
@@ -196,7 +178,6 @@ export default function ProjectSection() {
             Hover on project image to view details
           </motion.div>
 
-          {/* Project card with animation */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProjectIndex}
@@ -211,7 +192,6 @@ export default function ProjectSection() {
                 alt={projects[currentProjectIndex].title}
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
               />
-              {/* Overlay appears on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <h2
                   className="text-white text-2xl font-bold mb-2"
@@ -229,9 +209,7 @@ export default function ProjectSection() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation buttons */}
           <div className="flex justify-center items-center gap-10 mt-10">
-            {/* Previous Button */}
             <button
               className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
               onClick={handlePrevious}
@@ -248,7 +226,6 @@ export default function ProjectSection() {
               </svg>
             </button>
 
-            {/* Next Button */}
             {currentProjectIndex < projects.length - 1 && (
               <button
                 className="w-20 h-20 flex items-center justify-center rounded-full bg-transparent hover:scale-110 transition-transform duration-300"
